@@ -70,26 +70,7 @@ export default function App() {
             <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
 
               {/* HEADER */}
-              <div className="border-b border-slate-100 p-3">
 
-                <div className="rounded-2xl bg-slate-900 p-3 text-white">
-
-                  <p className="text-sm font-semibold text-emerald-300">
-                    Smart Wealth Planning
-                  </p>
-
-                  <h4 className="mt-2 text-xl font-bold">
-                    Make Better Financial Decisions
-                  </h4>
-
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                    Use powerful calculators and portfolio insights
-                    to plan your future confidently.
-                  </p>
-
-                </div>
-
-              </div>
 
               {/* NAVIGATION */}
               <div className="p-3 space-y-3">
