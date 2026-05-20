@@ -10,7 +10,6 @@ import {
     CartesianGrid,
     XAxis,
     YAxis,
-    Legend,
 } from 'recharts'
 
 export default function SIPCalculator() {
@@ -54,19 +53,17 @@ export default function SIPCalculator() {
 
     const pieData = [
         {
-            name: 'Invested Amount',
+            name: 'Invested',
             value: calculations.investedAmount,
         },
         {
-            name: 'Estimated Returns',
+            name: 'Returns',
             value: calculations.estimatedReturns,
         },
     ]
 
     const growthData = useMemo(() => {
         const data = []
-
-        let total = 0
 
         const monthlyRate =
             expectedReturn / 12 / 100
@@ -78,7 +75,7 @@ export default function SIPCalculator() {
         ) {
             const months = year * 12
 
-            total =
+            const total =
                 monthlyInvestment *
                 (((Math.pow(
                     1 + monthlyRate,
@@ -88,7 +85,7 @@ export default function SIPCalculator() {
                     (1 + monthlyRate))
 
             data.push({
-                year: `Year ${year}`,
+                year: `${year}Y`,
                 value: Math.round(total),
             })
         }
@@ -103,34 +100,107 @@ export default function SIPCalculator() {
     const COLORS = ['#10b981', '#0f172a']
 
     return (
-        <section className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
-            <div className="grid lg:grid-cols-2">
-                {/* LEFT SIDE */}
-                <div className="p-8 lg:p-10">
-                    <div className="mb-10">
-                        <div className="inline-flex items-center bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                            Investment Calculator
+        <div className="space-y-5">
+            {/* TOP METRICS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-xl">
+                            💰
                         </div>
 
-                        <h2 className="text-4xl font-bold text-slate-900 mb-3">
-                            SIP Calculator
+                        <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                            INVESTED
+                        </span>
+                    </div>
+
+                    <p className="text-sm text-slate-500 mb-2">
+                        Total Invested
+                    </p>
+
+                    <h2 className="text-3xl font-bold text-slate-900">
+                        ₹{' '}
+                        {Math.round(
+                            calculations.investedAmount
+                        ).toLocaleString()}
+                    </h2>
+                </div>
+
+                <div className="bg-emerald-600 rounded-3xl p-5 text-white shadow-xl shadow-emerald-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-xl">
+                            📈
+                        </div>
+
+                        <span className="text-xs font-semibold bg-white/20 px-3 py-1 rounded-full">
+                            RETURNS
+                        </span>
+                    </div>
+
+                    <p className="text-sm text-emerald-100 mb-2">
+                        Estimated Returns
+                    </p>
+
+                    <h2 className="text-3xl font-bold">
+                        ₹{' '}
+                        {Math.round(
+                            calculations.estimatedReturns
+                        ).toLocaleString()}
+                    </h2>
+                </div>
+
+                <div className="bg-slate-900 rounded-3xl p-5 text-white">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-xl">
+                            🚀
+                        </div>
+
+                        <span className="text-xs font-semibold bg-white/10 px-3 py-1 rounded-full">
+                            FUTURE VALUE
+                        </span>
+                    </div>
+
+                    <p className="text-sm text-slate-400 mb-2">
+                        Wealth Generated
+                    </p>
+
+                    <h2 className="text-3xl font-bold">
+                        ₹{' '}
+                        {Math.round(
+                            calculations.futureValue
+                        ).toLocaleString()}
+                    </h2>
+                </div>
+            </div>
+
+            {/* MAIN GRID */}
+            <div className="grid xl:grid-cols-[380px_1fr] gap-5">
+                {/* CONTROLS */}
+                <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
+                    <div className="mb-8">
+                        <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                            📊 SIP Calculator
+                        </div>
+
+                        <h2 className="text-3xl font-bold text-slate-900 mb-3">
+                            Investment Planner
                         </h2>
 
                         <p className="text-slate-500 leading-relaxed">
-                            Calculate future wealth generated by your
-                            Systematic Investment Plan (SIP).
+                            Calculate future wealth generated through
+                            systematic monthly investments.
                         </p>
                     </div>
 
                     <div className="space-y-8">
-                        {/* Monthly Investment */}
+                        {/* MONTHLY INVESTMENT */}
                         <div>
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-4">
                                 <label className="text-sm font-semibold text-slate-700">
                                     Monthly Investment
                                 </label>
 
-                                <span className="text-xl font-bold text-emerald-600">
+                                <span className="text-lg font-bold text-emerald-600">
                                     ₹{' '}
                                     {monthlyInvestment.toLocaleString()}
                                 </span>
@@ -149,16 +219,21 @@ export default function SIPCalculator() {
                                 }
                                 className="w-full accent-emerald-600"
                             />
+
+                            <div className="flex justify-between mt-2 text-xs text-slate-400">
+                                <span>₹500</span>
+                                <span>₹2L</span>
+                            </div>
                         </div>
 
-                        {/* Time Period */}
+                        {/* PERIOD */}
                         <div>
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-4">
                                 <label className="text-sm font-semibold text-slate-700">
                                     Investment Period
                                 </label>
 
-                                <span className="text-xl font-bold text-emerald-600">
+                                <span className="text-lg font-bold text-emerald-600">
                                     {investmentPeriod} Years
                                 </span>
                             </div>
@@ -175,16 +250,21 @@ export default function SIPCalculator() {
                                 }
                                 className="w-full accent-emerald-600"
                             />
+
+                            <div className="flex justify-between mt-2 text-xs text-slate-400">
+                                <span>1Y</span>
+                                <span>40Y</span>
+                            </div>
                         </div>
 
-                        {/* Expected Return */}
+                        {/* RETURNS */}
                         <div>
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-4">
                                 <label className="text-sm font-semibold text-slate-700">
-                                    Expected Return Rate
+                                    Expected Return
                                 </label>
 
-                                <span className="text-xl font-bold text-emerald-600">
+                                <span className="text-lg font-bold text-emerald-600">
                                     {expectedReturn}%
                                 </span>
                             </div>
@@ -201,103 +281,52 @@ export default function SIPCalculator() {
                                 }
                                 className="w-full accent-emerald-600"
                             />
-                        </div>
-                    </div>
 
-                    {/* RESULT CARDS */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
-                        <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
-                            <p className="text-slate-500 text-sm mb-2">
-                                Invested Amount
-                            </p>
-
-                            <h3 className="text-2xl font-bold text-slate-900">
-                                ₹{' '}
-                                {Math.round(
-                                    calculations.investedAmount
-                                ).toLocaleString()}
-                            </h3>
-                        </div>
-
-                        <div className="bg-emerald-50 rounded-2xl p-5 border border-emerald-100">
-                            <p className="text-emerald-700 text-sm mb-2">
-                                Estimated Returns
-                            </p>
-
-                            <h3 className="text-2xl font-bold text-emerald-700">
-                                ₹{' '}
-                                {Math.round(
-                                    calculations.estimatedReturns
-                                ).toLocaleString()}
-                            </h3>
-                        </div>
-
-                        <div className="bg-slate-900 rounded-2xl p-5">
-                            <p className="text-slate-400 text-sm mb-2">
-                                Total Future Value
-                            </p>
-
-                            <h3 className="text-2xl font-bold text-white">
-                                ₹{' '}
-                                {Math.round(
-                                    calculations.futureValue
-                                ).toLocaleString()}
-                            </h3>
+                            <div className="flex justify-between mt-2 text-xs text-slate-400">
+                                <span>1%</span>
+                                <span>30%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* RIGHT SIDE */}
-                <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 p-8 lg:p-10 text-white flex flex-col justify-between">
-                    {/* TOP */}
-                    <div>
-                        <div className="flex items-center justify-between mb-8">
+                {/* CHARTS */}
+                <div className="grid lg:grid-cols-2 gap-5">
+                    {/* PIE CHART */}
+                    <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
                             <div>
-                                <p className="text-slate-400 mb-2">
-                                    Wealth Projection
-                                </p>
-
-                                <h3 className="text-4xl font-bold">
-                                    ₹{' '}
-                                    {Math.round(
-                                        calculations.futureValue
-                                    ).toLocaleString()}
+                                <h3 className="text-lg font-bold text-slate-900">
+                                    Investment Breakdown
                                 </h3>
+
+                                <p className="text-sm text-slate-500 mt-1">
+                                    Invested amount vs returns
+                                </p>
                             </div>
 
-                            <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-400/20 flex items-center justify-center">
-                                📈
+                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center">
+                                🥧
                             </div>
                         </div>
 
-                        {/* PIE CHART */}
-                        <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-6 mb-8">
-                            <div className="mb-4">
-                                <h4 className="text-xl font-semibold">
-                                    Investment Breakdown
-                                </h4>
-
-                                <p className="text-slate-400 text-sm">
-                                    Invested vs wealth gained.
-                                </p>
-                            </div>
-
-                            <div className="h-72">
-                                <ResponsiveContainer
-                                    width="100%"
-                                    height="100%"
-                                >
-                                    <PieChart>
-                                        <Pie
-                                            data={pieData}
-                                            cx="50%"
-                                            cy="50%"
-                                            innerRadius={70}
-                                            outerRadius={100}
-                                            paddingAngle={5}
-                                            dataKey="value"
-                                        >
-                                            {pieData.map((entry, index) => (
+                        <div className="h-[320px]">
+                            <ResponsiveContainer
+                                width="100%"
+                                height="100%"
+                            >
+                                <PieChart>
+                                    <Pie
+                                        data={pieData}
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={80}
+                                        outerRadius={115}
+                                        paddingAngle={5}
+                                        dataKey="value"
+                                    >
+                                        {pieData.map(
+                                            (entry, index) => (
                                                 <Cell
                                                     key={index}
                                                     fill={
@@ -306,31 +335,78 @@ export default function SIPCalculator() {
                                                         ]
                                                     }
                                                 />
-                                            ))}
-                                        </Pie>
+                                            )
+                                        )}
+                                    </Pie>
 
-                                        <Tooltip />
+                                    <Tooltip
+                                        contentStyle={{
+                                            borderRadius: '16px',
+                                            border:
+                                                '1px solid #e2e8f0',
+                                            backgroundColor: '#fff',
+                                        }}
+                                    />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
 
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                        <div className="grid grid-cols-2 gap-4 mt-5">
+                            <div className="bg-slate-50 rounded-2xl p-4">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+
+                                    <span className="text-sm text-slate-600">
+                                        Invested
+                                    </span>
+                                </div>
+
+                                <h4 className="font-bold text-slate-900">
+                                    ₹{' '}
+                                    {Math.round(
+                                        calculations.investedAmount
+                                    ).toLocaleString()}
+                                </h4>
+                            </div>
+
+                            <div className="bg-slate-50 rounded-2xl p-4">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-3 h-3 rounded-full bg-slate-900"></div>
+
+                                    <span className="text-sm text-slate-600">
+                                        Returns
+                                    </span>
+                                </div>
+
+                                <h4 className="font-bold text-slate-900">
+                                    ₹{' '}
+                                    {Math.round(
+                                        calculations.estimatedReturns
+                                    ).toLocaleString()}
+                                </h4>
                             </div>
                         </div>
                     </div>
 
-                    {/* AREA CHART */}
-                    <div>
-                        <div className="mb-4">
-                            <h4 className="text-xl font-semibold">
-                                Growth Over Time
-                            </h4>
+                    {/* GROWTH CHART */}
+                    <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 className="text-lg font-bold text-slate-900">
+                                    Wealth Growth
+                                </h3>
 
-                            <p className="text-slate-400 text-sm">
-                                Estimated portfolio growth annually.
-                            </p>
+                                <p className="text-sm text-slate-500 mt-1">
+                                    Yearly portfolio growth
+                                </p>
+                            </div>
+
+                            <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                                📈
+                            </div>
                         </div>
 
-                        <div className="h-72">
+                        <div className="h-[320px]">
                             <ResponsiveContainer
                                 width="100%"
                                 height="100%"
@@ -347,7 +423,7 @@ export default function SIPCalculator() {
                                             <stop
                                                 offset="5%"
                                                 stopColor="#10b981"
-                                                stopOpacity={0.8}
+                                                stopOpacity={0.35}
                                             />
 
                                             <stop
@@ -360,31 +436,56 @@ export default function SIPCalculator() {
 
                                     <CartesianGrid
                                         strokeDasharray="3 3"
-                                        stroke="#334155"
+                                        stroke="#e2e8f0"
                                     />
 
                                     <XAxis
                                         dataKey="year"
-                                        stroke="#94a3b8"
+                                        stroke="#64748b"
                                     />
 
-                                    <YAxis stroke="#94a3b8" />
+                                    <YAxis
+                                        stroke="#64748b"
+                                    />
 
-                                    <Tooltip />
+                                    <Tooltip
+                                        contentStyle={{
+                                            borderRadius: '16px',
+                                            border:
+                                                '1px solid #e2e8f0',
+                                            backgroundColor: '#fff',
+                                        }}
+                                    />
 
                                     <Area
                                         type="monotone"
                                         dataKey="value"
                                         stroke="#10b981"
+                                        strokeWidth={3}
                                         fillOpacity={1}
                                         fill="url(#sipGrowth)"
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
+
+                        <div className="mt-5 bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
+                            <p className="text-sm text-emerald-700 mb-1">
+                                Wealth Insight
+                            </p>
+
+                            <h4 className="font-semibold text-emerald-900 leading-relaxed">
+                                Your SIP can potentially grow to{' '}
+                                ₹{' '}
+                                {Math.round(
+                                    calculations.futureValue
+                                ).toLocaleString()}{' '}
+                                in {investmentPeriod} years.
+                            </h4>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }

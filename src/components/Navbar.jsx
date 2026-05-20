@@ -12,7 +12,7 @@ export default function Navbar() {
                             InvestKit
                         </h1>
                         <p className="text-sm text-slate-500">
-                            Smart Financial Planning
+                            Smart Wealth Planning
                         </p>
                     </div>
                 </div>

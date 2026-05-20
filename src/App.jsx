@@ -11,21 +11,25 @@ const tabs = [
     id: 'sip',
     label: 'SIP Calculator',
     icon: '📈',
+    desc: 'Calculate future wealth growth',
   },
   {
     id: 'goal',
     label: 'Goal Planner',
     icon: '🎯',
+    desc: 'Plan financial goals smartly',
   },
   {
     id: 'risk',
     label: 'Risk Profiler',
     icon: '🛡️',
+    desc: 'Discover your investor type',
   },
   {
     id: 'portfolio',
     label: 'Portfolio Analyzer',
     icon: '📊',
+    desc: 'Analyze asset allocation',
   },
 ]
 
@@ -53,61 +57,116 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 py-10">
-        {/* PAGE HEADER */}
-        <div className="mb-10">
-          <div className="inline-flex items-center bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold mb-5">
-            Financial Planning Suite
-          </div>
+      <div className="mx-auto max-w-[1600px] px-4 py-5">
 
-          <h1 className="text-5xl font-bold text-slate-900 mb-4">
-            Smart Financial Tools
-          </h1>
+        <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
 
-          <p className="text-slate-500 max-w-3xl leading-relaxed text-lg">
-            Plan investments, analyze portfolios,
-            discover your risk appetite, and achieve
-            your financial goals with YS Capital's
-            intelligent planning tools.
-          </p>
+          {/* SIDEBAR */}
+          <aside className="lg:sticky lg:top-24 h-fit">
+
+            <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
+
+              {/* HEADER */}
+              <div className="border-b border-slate-100 p-3">
+
+                <div className="rounded-2xl bg-slate-900 p-3 text-white">
+
+                  <p className="text-sm font-semibold text-emerald-300">
+                    Smart Wealth Planning
+                  </p>
+
+                  <h4 className="mt-2 text-xl font-bold">
+                    Make Better Financial Decisions
+                  </h4>
+
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                    Use powerful calculators and portfolio insights
+                    to plan your future confidently.
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* NAVIGATION */}
+              <div className="p-3 space-y-3">
+
+                {tabs.map((tab) => {
+                  const active =
+                    activeTab === tab.id
+
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() =>
+                        setActiveTab(tab.id)
+                      }
+                      className={`w-full rounded-2xl border px-4 py-4 text-left transition-all duration-300 ${active
+                        ? 'border-emerald-500 bg-emerald-600 text-white shadow-md shadow-emerald-100'
+                        : 'border-slate-200 bg-white hover:border-emerald-200 hover:bg-emerald-50/50'
+                        }`}
+                    >
+
+                      <div className="flex items-center gap-4">
+
+                        {/* ICON */}
+                        <div
+                          className={`flex h-12 w-12 items-center justify-center rounded-2xl text-xl ${active
+                            ? 'bg-white/15'
+                            : 'bg-slate-100'
+                            }`}
+                        >
+                          {tab.icon}
+                        </div>
+
+                        {/* CONTENT */}
+                        <div className="flex-1">
+
+                          <h3
+                            className={`font-bold ${active
+                              ? 'text-white'
+                              : 'text-slate-900'
+                              }`}
+                          >
+                            {tab.label}
+                          </h3>
+
+                          <p
+                            className={`mt-1 text-sm ${active
+                              ? 'text-emerald-100'
+                              : 'text-slate-500'
+                              }`}
+                          >
+                            {tab.desc}
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                    </button>
+                  )
+                })}
+
+              </div>
+
+
+
+
+            </div>
+
+          </aside>
+
+          {/* MAIN CONTENT */}
+          <main>
+            {renderComponent()}
+          </main>
+
         </div>
 
-        {/* HORIZONTAL TABS */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-3 shadow-sm mb-8 overflow-x-auto">
-          <div className="flex gap-3 min-w-max">
-            {tabs.map((tab) => {
-              const isActive =
-                activeTab === tab.id
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() =>
-                    setActiveTab(tab.id)
-                  }
-                  className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-semibold transition-all duration-300 whitespace-nowrap ${isActive
-                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200'
-                      : 'text-slate-600 hover:bg-slate-100'
-                    }`}
-                >
-                  <span className="text-xl">
-                    {tab.icon}
-                  </span>
-
-                  <span>{tab.label}</span>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* ACTIVE COMPONENT */}
-        <div className="animate-fadeIn">
-          {renderComponent()}
-        </div>
       </div>
     </div>
   )
